@@ -12,7 +12,7 @@ import { Header, Account, Faucet, Ramp, Contract, GasGauge } from "./components"
 import { Transactor } from "./helpers";
 import { formatEther, parseEther } from "@ethersproject/units";
 //import Hints from "./Hints";
-import { Hints, ExampleUI, Subgraph } from "./views"
+import { Hints, ExampleUI, Subgraph, Donor, Cause, SelectedCause } from "./views"
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
 /*
     Welcome to 🏗 scaffold-eth !
@@ -112,13 +112,20 @@ function App(props) {
   //
 
   // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts,"YourContract", "purpose")
-  console.log("🤗 purpose:",purpose)
+  // const purpose = useContractReader(readContracts,"YourContract", "purpose")
+  // console.log("🤗 purpose:",purpose)
 
-  //📟 Listen for broadcast events
-  const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
-  console.log("📟 SetPurpose events:",setPurposeEvents)
+  // //📟 Listen for broadcast events
+  // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
+  // console.log("📟 SetPurpose events:",setPurposeEvents)
+  const causeEvents = useEventListener(readContracts, "Donator", "CauseAdded", localProvider, 1);
+  console.log(causeEvents)
 
+  const donorEvents = useEventListener(readContracts, "Donator", "DonorAdded", localProvider, 1);
+  console.log(donorEvents)
+
+  const donationEvents = useEventListener(readContracts, "Donator", "DonationMade", localProvider, 1);
+  console.log(donationEvents);
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -193,8 +200,14 @@ function App(props) {
           <Menu.Item key="/">
             <Link onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
           </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
+          <Menu.Item key="/add-cause">
+            <Link onClick={()=>{setRoute("/add-cause")}} to="/add-cause">Causes</Link>
+          </Menu.Item>
+          <Menu.Item key="/add-donor">
+            <Link onClick={()=>{setRoute("/add-donor")}} to="/add-donor">Donors</Link>
+          </Menu.Item>
+          <Menu.Item key="/selected-cause">
+            <Link onClick={()=>{setRoute("/selected-causet")}} to="/selected-cause">Selected</Link>
           </Menu.Item>
           <Menu.Item key="/exampleui">
             <Link onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
@@ -211,7 +224,13 @@ function App(props) {
                 this <Contract/> component will automatically parse your ABI
                 and give you a form to interact with it locally
             */}
-
+            <Contract
+              name="Donator"
+              signer={userProvider.getSigner()}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+             />
             <Contract
               name="YourContract"
               signer={userProvider.getSigner()}
@@ -242,13 +261,34 @@ function App(props) {
             />
             */ }
           </Route>
-          <Route path="/hints">
-            <Hints
+          <Route path="/add-cause">
+            <Cause
               address={address}
-              yourLocalBalance={yourLocalBalance}
+              userProvider={userProvider}
               mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
               price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
             />
+          </Route>
+          <Route path="/add-donor">
+              <Donor
+                address={address}
+                userProvider={userProvider}
+                mainnetProvider={mainnetProvider}
+                localProvider={localProvider}
+                yourLocalBalance={yourLocalBalance}
+                price={price}
+                tx={tx}
+                writeContracts={writeContracts}
+                readContracts={readContracts}
+             />
+          </Route>
+          <Route path="/selected-cause">
+              <SelectedCause />
           </Route>
           <Route path="/exampleui">
             <ExampleUI
@@ -261,8 +301,6 @@ function App(props) {
               tx={tx}
               writeContracts={writeContracts}
               readContracts={readContracts}
-              purpose={purpose}
-              setPurposeEvents={setPurposeEvents}
             />
           </Route>
           <Route path="/subgraph">

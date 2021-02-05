@@ -6,12 +6,70 @@ import { SyncOutlined } from '@ant-design/icons';
 import { Address, Balance } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
 
-export default function ExampleUI({purpose, setPurposeEvents, address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) {
+export default function ExampleUI({purpose, donationEvents, causeEvents, donorEvents, address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) {
 
   const [newPurpose, setNewPurpose] = useState("loading...");
 
   return (
     <div>
+       <div style={{ width:600, margin: "auto", marginTop:32, paddingBottom:32 }}>
+        <h2>Causes:</h2>
+        <List
+          bordered
+          dataSource={causeEvents}
+          renderItem={(item) => {
+            return (
+              
+              <List.Item key={item.blocknumber}>
+                <Address
+                    value={item.owner}
+                    ensProvider={mainnetProvider}
+                    fontSize={16}
+                  />
+                {item.id.toNumber()} -- {item.title} -- {item.videoUrl} -- {formatEther(item.value)} --
+                
+              </List.Item>
+            )
+          }}
+        />
+      </div>
+
+      <div style={{ width:600, margin: "auto", marginTop:32, paddingBottom:32 }}>
+        <h2>Donors:</h2>
+        <List
+          bordered
+          dataSource={donorEvents}
+          renderItem={(item) => {
+            return (              
+              <List.Item key={item.blocknumber}>
+                  {item.id} -- {item.fname} -- {item.lname} -- {item.email} -- {item.telephone}
+                
+              </List.Item>
+            )
+          }}
+        />
+      </div>
+
+
+
+      {/*
+        ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
+      */}
+      <div style={{border:"1px solid #cccccc", padding:16, width:400, margin:"auto",marginTop:64}}>
+      
+      <h2>Donations:</h2>
+        <List
+          bordered
+          dataSource={donationEvents}
+          renderItem={(item) => {
+            return (              
+              <List.Item key={item.blocknumber}>
+                 {item.date.toString()} -- {item.causeId.toNumber()}                
+              </List.Item>
+            )
+          }}
+        />
+      </div>
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
@@ -132,25 +190,7 @@ export default function ExampleUI({purpose, setPurposeEvents, address, mainnetPr
         📑 Maybe display a list of events?
           (uncomment the event and emit line in YourContract.sol! )
       */}
-      <div style={{ width:600, margin: "auto", marginTop:32, paddingBottom:32 }}>
-        <h2>Events:</h2>
-        <List
-          bordered
-          dataSource={setPurposeEvents}
-          renderItem={(item) => {
-            return (
-              <List.Item key={item.blockNumber+"_"+item.sender+"_"+item.purpose}>
-                <Address
-                    value={item[0]}
-                    ensProvider={mainnetProvider}
-                    fontSize={16}
-                  /> =>
-                {item[1]}
-              </List.Item>
-            )
-          }}
-        />
-      </div>
+     
 
 
       <div style={{ width:600, margin: "auto", marginTop:32, paddingBottom:256 }}>
