@@ -198,7 +198,7 @@ function App(props) {
 
         <Menu style={{ textAlign:"center" }} selectedKeys={[route]} mode="horizontal">
           <Menu.Item key="/">
-            <Link onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
+            <Link onClick={()=>{setRoute("/")}} to="/">🐞</Link>
           </Menu.Item>
           <Menu.Item key="/add-cause">
             <Link onClick={()=>{setRoute("/add-cause")}} to="/add-cause">Causes</Link>
@@ -213,7 +213,7 @@ function App(props) {
             <Link onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
           </Menu.Item>
           <Menu.Item key="/subgraph">
-            <Link onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
+            <Link onClick={()=>{setRoute("/subgraph")}} to="/subgraph">📊</Link>
           </Menu.Item>
         </Menu>
 
@@ -301,6 +301,9 @@ function App(props) {
               tx={tx}
               writeContracts={writeContracts}
               readContracts={readContracts}
+              donorEvents={donorEvents}
+              donationEvents={donationEvents}
+              causeEvents={causeEvents}
             />
           </Route>
           <Route path="/subgraph">

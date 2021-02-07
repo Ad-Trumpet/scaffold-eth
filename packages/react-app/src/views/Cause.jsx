@@ -5,27 +5,9 @@ import { Address, Balance } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
 import ReactPlayer from 'react-player/lazy'
 
-const AdTrumpet = ({ address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) => {
+const Cause = ({ address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    
-
-    const openModal = () => {
-        setIsVisible(true);
-    }
-
-    const handleOk = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-          setIsLoading(false);
-          setIsVisible(false);
-        }, 3000);
-    };
-
-    const handleCancel = () => {
-        setIsVisible(false);
-    };
-    
     // show the featured video at top of window...
     const [causeName, setCauseName] = useState('');
     const [causeVideoUri, setCauseVideoUri] = useState('');
@@ -75,33 +57,15 @@ const AdTrumpet = ({ address, mainnetProvider, userProvider, localProvider, your
             </div>
             <div id='video-container'>
                 {/* <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' /> */}
+
             </div>
             <div id='controls'>
 
             </div>
-            <Modal
-                visible={isVisible}
-                title="Title"
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer={[
-                    <Button key="back" onClick={handleCancel}>
-                    Return
-                    </Button>,
-                    <Button key="submit" type="primary" loading={isLoading} onClick={handleOk}>
-                    Submit
-                    </Button>,
-                ]}
-                >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-            </Modal>
+           
         </div>
 
     )
 }
 
-export default AdTrumpet;
+export default Cause;
