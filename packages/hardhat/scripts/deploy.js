@@ -12,6 +12,8 @@ const main = async () => {
 
   const yourContract = await deploy("YourContract") // <-- add in constructor args like line 19 vvvv
   const donator = await deploy("Donator")
+  const ethPriceOracle = await deploy("EthPriceOracle", ["0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507"])
+  const dateTime = await deploy('DateTime')
   //const secondContract = await deploy("SecondContract")
 
   // const exampleToken = await deploy("ExampleToken")

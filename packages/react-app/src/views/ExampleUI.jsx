@@ -6,7 +6,20 @@ import { SyncOutlined } from '@ant-design/icons';
 import { Address, Balance } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
 
-export default function ExampleUI({donationEvents, causeEvents, donorEvents, address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) {
+export default function ExampleUI({
+  donationEvents, 
+  causeEvents, 
+  donorEvents, 
+  address, 
+  mainnetProvider, 
+  userProvider, 
+  localProvider, 
+  yourLocalBalance, 
+  price, 
+  tx, 
+  readContracts, 
+  writeContracts 
+}) {
 
   const [newPurpose, setNewPurpose] = useState("loading...");
 
@@ -40,7 +53,7 @@ export default function ExampleUI({donationEvents, causeEvents, donorEvents, add
           renderItem={(item) => {
             return (              
               <List.Item key={item.blocknumber}>
-                  {item.id} -- {item.fname} -- {item.lname} -- {item.email} -- {item.telephone}
+                  {item.id} -- {item.fname} -- {item.lname} -- {item.email} -- {item.telephone} -- {item.physicalAddress}
                 
               </List.Item>
             )
@@ -62,7 +75,7 @@ export default function ExampleUI({donationEvents, causeEvents, donorEvents, add
           renderItem={(item) => {
             return (              
               <List.Item key={item.blocknumber}>
-                 {item.date.toString()} -- {item.causeId.toNumber()}                
+                Date: {item.date.toString()}  Id: {item.causeId.toNumber()} Amount: {formatEther(item.amount.toString())} Ξ              
               </List.Item>
             )
           }}
@@ -72,62 +85,9 @@ export default function ExampleUI({donationEvents, causeEvents, donorEvents, add
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
       <div style={{border:"1px solid #cccccc", padding:16, width:400, margin:"auto",marginTop:64}}>
-        
-
-        Your Address:
-        <Address
-            value={address}
-            ensProvider={mainnetProvider}
-            fontSize={16}
-        />
-
+      
+       
         <Divider />
-
-        ENS Address Example:
-        <Address
-          value={"0x34aA3F359A9D614239015126635CE7732c18fDF3"} /* this will show as austingriffith.eth */
-          ensProvider={mainnetProvider}
-          fontSize={16}
-        />
-
-        <Divider/>
-
-        {  /* use formatEther to display a BigNumber: */ }
-        <h2>Your Balance: {yourLocalBalance?formatEther(yourLocalBalance):"..."}</h2>
-
-        OR
-
-        <Balance
-          address={address}
-          provider={localProvider}
-          dollarMultiplier={price}
-        />
-
-        <Divider/>
-
-
-        {  /* use formatEther to display a BigNumber: */ }
-        <h2>Your Balance: {yourLocalBalance?formatEther(yourLocalBalance):"..."}</h2>
-
-        <Divider/>
-
-
-
-        Your Contract Address:
-        <Address
-            value={readContracts?readContracts.YourContract.address:readContracts}
-            ensProvider={mainnetProvider}
-            fontSize={16}
-        />
-
-        <Divider />
-
-        <div style={{margin:8}}>
-          <Button onClick={()=>{
-            /* look how you call setPurpose on your contract: */
-            tx( writeContracts.YourContract.setPurpose("🍻 Cheers") )
-          }}>Set Purpose to "🍻 Cheers"</Button>
-        </div>
 
         <div style={{margin:8}}>
           <Button onClick={()=>{
@@ -141,18 +101,7 @@ export default function ExampleUI({donationEvents, causeEvents, donorEvents, add
             });
             /* this should throw an error about "no fallback nor receive function" until you add it */
           }}>Send Value</Button>
-        </div>
-
-        <div style={{margin:8}}>
-          <Button onClick={()=>{
-            /* look how we call setPurpose AND send some value along */
-            tx( writeContracts.YourContract.setPurpose("💵 Paying for this one!",{
-              value: parseEther("0.001")
-            }))
-            /* this will fail until you make the setPurpose function payable */
-          }}>Set Purpose With Value</Button>
-        </div>
-
+        </div>        
 
         <div style={{margin:8}}>
           <Button onClick={()=>{
@@ -165,72 +114,7 @@ export default function ExampleUI({donationEvents, causeEvents, donorEvents, add
             /* this should throw an error about "no fallback nor receive function" until you add it */
           }}>Another Example</Button>
         </div>
-
-      </div>
-
-      {/*
-        📑 Maybe display a list of events?
-          (uncomment the event and emit line in YourContract.sol! )
-      */}
-     
-
-
-      <div style={{ width:600, margin: "auto", marginTop:32, paddingBottom:256 }}>
-
-        <Card>
-
-          Check out all the <a href="https://github.com/austintgriffith/scaffold-eth/tree/master/packages/react-app/src/components" target="_blank" rel="noopener noreferrer">📦  components</a>
-
-        </Card>
-
-        <Card style={{marginTop:32}}>
-
-          <div>
-            There are tons of generic components included from <a href="https://ant.design/components/overview/" target="_blank" rel="noopener noreferrer">🐜  ant.design</a> too!
-          </div>
-
-          <div style={{marginTop:8}}>
-            <Button type="primary">
-              Buttons
-            </Button>
-          </div>
-
-          <div style={{marginTop:8}}>
-            <SyncOutlined spin />  Icons
-          </div>
-
-          <div style={{marginTop:8}}>
-            Date Pickers?
-            <div style={{marginTop:2}}>
-              <DatePicker onChange={()=>{}}/>
-            </div>
-          </div>
-
-          <div style={{marginTop:32}}>
-            <Slider range defaultValue={[20, 50]} onChange={()=>{}}/>
-          </div>
-
-          <div style={{marginTop:32}}>
-            <Switch defaultChecked onChange={()=>{}} />
-          </div>
-
-          <div style={{marginTop:32}}>
-            <Progress percent={50} status="active" />
-          </div>
-
-          <div style={{marginTop:32}}>
-            <Spin />
-          </div>
-
-
-        </Card>
-
-
-
-
-      </div>
-
-
+      </div>   
     </div>
   );
 }

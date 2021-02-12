@@ -98,6 +98,12 @@
         "internalType": "string",
         "name": "telephone",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "physicalAddress",
+        "type": "string"
       }
     ],
     "name": "DonorAdded",
@@ -169,6 +175,19 @@
   {
     "inputs": [],
     "name": "causeCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "causeRegistrationFee",
     "outputs": [
       {
         "internalType": "uint256",
@@ -381,6 +400,11 @@
         "internalType": "string",
         "name": "telephone",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "physicalAddress",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -432,6 +456,11 @@
       {
         "internalType": "string",
         "name": "telephone",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "physicalAddress",
         "type": "string"
       }
     ],
@@ -507,6 +536,11 @@
           {
             "internalType": "string",
             "name": "telephone",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "physicalAddress",
             "type": "string"
           }
         ],
@@ -613,6 +647,11 @@
             "internalType": "string",
             "name": "telephone",
             "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "physicalAddress",
+            "type": "string"
           }
         ],
         "internalType": "struct Donator.Donor",
@@ -626,6 +665,32 @@
   {
     "inputs": [],
     "name": "getDonorCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address payable",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalDonatedAllCauses",
     "outputs": [
       {
         "internalType": "uint256",

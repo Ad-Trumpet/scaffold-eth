@@ -1,15 +1,14 @@
 pragma solidity >=0.6.0 <0.7.3;
 pragma experimental ABIEncoderV2;
 
-//import "hardhat/console.sol";
+import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
 contract Donator {
-    uint256 totalDonatedAllCauses;
-    uint256 totalDonated;
-    uint256 causeRegistrationFee = .1 ether;
-    address payable owner;
+    uint256 public totalDonatedAllCauses;
+    //uint256 public totalDonated;
+    uint256 public causeRegistrationFee = .1 ether;
+    address payable public owner;
 
     struct Donor {
         address payable id;
@@ -17,6 +16,7 @@ contract Donator {
         string lname;
         string email;
         string telephone;
+        string physicalAddress;
     }    
 
     struct Donation {
@@ -52,7 +52,7 @@ contract Donator {
     }
 
     // Ability for anonymous donations
-    event DonorAdded(address id, string fname, string lname, string email, string telephone);
+    event DonorAdded(address id, string fname, string lname, string email, string telephone, string physicalAddress);
     event CauseAdded(uint256 id, string title, string videoUrl, uint256 value, address owner);
     event DonationMade(uint256 amount, uint256 causeId, uint256 date);
     //event Donation()
@@ -63,16 +63,20 @@ contract Donator {
 
     function addDonor(string memory _fname, string memory _lname, string memory _email, string memory _telephone, string memory _address)
         public
-        returns (bool )
+        returns (bool)
     {
-        Donor memory donor = Donor(msg.sender, _fname, _lname, _email, _telephone);
+        // ToDo: Make sure the donor does not already exist
+        //require(msg.sender != donors[msg.sender], "The Donor already exists");
+
+        // Add to mapping
+        Donor memory donor = Donor(msg.sender, _fname, _lname, _email, _telephone, _address);
         donorCount = donorCount + 1;
         donors[msg.sender] = donor;
 
-        //donorArray[donorCount] memory da = Donor(msg.sender, _fname, _lname, _email, _telephone);
-        donorArray.push(Donor(msg.sender, _fname, _lname, _email, _telephone));
+        // Add to array
+        donorArray.push(Donor(msg.sender, _fname, _lname, _email, _telephone, _address));
 
-        emit DonorAdded(msg.sender, _fname, _lname, _email, _telephone);
+        emit DonorAdded(msg.sender, _fname, _lname, _email, _telephone, _address);
         return true;
     }
 
@@ -135,7 +139,7 @@ contract Donator {
         public payable
         returns (uint256) 
     {
-        require(msg.value >= causeRegistrationFee, "addCause::Need to send more ether");
+        require(msg.value >= causeRegistrationFee, "addCause::Need to send more ether for registration (0.1 ETH)");
         causeCount = causeCount + 1;
 
         Cause memory cause = Cause(causeCount, msg.sender, msg.value, _title, _videoUrl);

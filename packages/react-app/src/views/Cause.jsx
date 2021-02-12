@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Button, Modal, List, Divider, Input, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
+//import { Button, Modal, List, Divider, Input, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
 import { SyncOutlined, DollarOutlined } from '@ant-design/icons';
+import { Grid, Image, Card, Icon, Label, Button, Form } from 'semantic-ui-react';
 import { Address, Balance } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
 import ReactPlayer from 'react-player/lazy'
@@ -13,22 +14,32 @@ const Cause = ({ address, mainnetProvider, userProvider, localProvider, yourLoca
     const [causeVideoUri, setCauseVideoUri] = useState('');
 
     return (
-        <div id='main-container' style={{ width: 600, margin: 'auto' }}>           
+        <div id='main-container' style={{ width: 600, margin: 'auto' }}>
+             <h3>Add a new Cause </h3>
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column width={12}>
+                        <Form>
+                            <Form.Field>
+                                <Form.Label>Name</Form.Label>
+                                <Form.Input 
+                                    placeholder='Name of Cause'
+                                    onChange={(e) => {
+                                        setCauseName(e.target.value);
+                                }}/>
+                                <Form.Label>Video Url</Form.Label>
+                                <Form.Input
+                                    placeholder='Url to your video ad'
+                                    onChange={(e) => {
+                                        setCauseVideoUri(e.target.value);
+                                    }}
+                                />
+                            </Form.Field>
+                        </Form>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>     
             <div>
-                <h3>Add a new Cause </h3>
-                Name:
-                <Input placeholder='Name of Cause'
-                    onChange={(e) => {
-                        setCauseName(e.target.value);
-                    }}
-                />
-                
-                 Video Url:
-                 <Input placeholder='Url to your video ad'
-                    onChange={(e) => {
-                        setCauseVideoUri(e.target.value);
-                    }}
-                />
                 <br /><br />
                 {/* Video load preview */}
                 <div id='video-preview'>
