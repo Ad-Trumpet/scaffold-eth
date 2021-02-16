@@ -8,12 +8,12 @@ import { Grid, Image, Card, Icon, Label, Button, Form } from 'semantic-ui-react'
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
-import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useContractReader, useEventListener, useBalance, useExternalContractLoader } from "./hooks";
+import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useContractReader, useEventListener, useBalance, useExternalContractLoader, usePoller } from "./hooks";
 import { Header, Account, Faucet, Ramp, Contract, GasGauge } from "./components";
 import { Transactor } from "./helpers";
 import { formatEther, parseEther } from "@ethersproject/units";
 //import Hints from "./Hints";
-import { Hints, ExampleUI, Subgraph, Donor, Cause, SelectedCause } from "./views"
+import { Hints, ExampleUI, Subgraph, Donor, Cause, SelectedCause, Donate } from "./views"
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
 import ethers from 'ethers'
 /*
@@ -100,11 +100,11 @@ function App(props) {
 
   // Load in your local 📝 contract and read a value from it:
   const readContracts = useContractLoader(localProvider)
-  if(DEBUG) console.log("📝 readContracts",readContracts)
+  if(DEBUG) console.log("📝 readContracts", readContracts)
 
   // If you want to make 🔐 write transactions to your contracts, use the userProvider:
   const writeContracts = useContractLoader(userProvider)
-  if(DEBUG) console.log("🔐 writeContracts",writeContracts)
+  if(DEBUG) console.log("🔐 writeContracts", writeContracts)
 
   // EXTERNAL CONTRACT EXAMPLE:
   //
@@ -178,7 +178,7 @@ function App(props) {
 
   let faucetHint = ""
   const [ faucetClicked, setFaucetClicked ] = useState( false );
-    if(!faucetClicked&&localProvider&&localProvider._network&&localProvider._network.chainId==31337&&yourLocalBalance&&formatEther(yourLocalBalance)<=0){
+    if(!faucetClicked && localProvider && localProvider._network && localProvider._network.chainId == 31337 && yourLocalBalance && formatEther(yourLocalBalance) <= 0){
     faucetHint = (
       <div style={{padding:16}}>
         <Button type={"primary"} onClick={()=>{
@@ -266,6 +266,9 @@ function App(props) {
               blockExplorer={blockExplorer}
             />
             */ }
+          </Route>
+          <Route path='/donate'>
+            <Donate address={address} tx={tx} />
           </Route>
           <Route path="/add-cause">
             <Cause

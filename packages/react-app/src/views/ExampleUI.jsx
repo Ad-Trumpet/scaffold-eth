@@ -75,7 +75,7 @@ export default function ExampleUI({
           renderItem={(item) => {
             return (              
               <List.Item key={item.blocknumber}>
-                Date: {item.date.toString()}  Id: {item.causeId.toNumber()} Amount: {formatEther(item.amount.toString())} Ξ              
+                Donor: {item.donor}  Date: {item.date.toString()}  Id: {item.causeId.toNumber()} Amount: {formatEther(item.amount.toString())} Ξ              
               </List.Item>
             )
           }}

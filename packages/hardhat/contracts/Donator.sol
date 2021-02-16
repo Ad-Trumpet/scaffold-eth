@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Donator {
-    uint256 public totalDonatedAllCauses;
+    uint256 totalDonatedAllCauses;
     //uint256 public totalDonated;
     uint256 public causeRegistrationFee = .1 ether;
     address payable public owner;
@@ -54,24 +54,30 @@ contract Donator {
     // Ability for anonymous donations
     event DonorAdded(address id, string fname, string lname, string email, string telephone, string physicalAddress);
     event CauseAdded(uint256 id, string title, string videoUrl, uint256 value, address owner);
-    event DonationMade(uint256 amount, uint256 causeId, uint256 date);
-    //event Donation()
+    event DonationMade(address donor, uint256 amount, uint256 causeId, uint256 date);
+    event WithdrawMade(uint256 date, uint256 amount);
 
     constructor () public {
         //owner = _owner;
     }
 
+    /**
+    * @dev addDonor
+    *
+    */
+    // ToDo: make a reference to ipfs to store the donor info, too expensive to store onchain
     function addDonor(string memory _fname, string memory _lname, string memory _email, string memory _telephone, string memory _address)
         public
         returns (bool)
     {
-        // ToDo: Make sure the donor does not already exist
-        //require(msg.sender != donors[msg.sender], "The Donor already exists");
-
+        // Make sure the donor does not already exist
+        require(msg.sender != donors[msg.sender].id, "The Donor already exists");
+        
+        // ** Haven't decided which one to use yet **
         // Add to mapping
-        Donor memory donor = Donor(msg.sender, _fname, _lname, _email, _telephone, _address);
+        //Donor memory donor = Donor(msg.sender, _fname, _lname, _email, _telephone, _address);
         donorCount = donorCount + 1;
-        donors[msg.sender] = donor;
+        donors[msg.sender] = Donor(msg.sender, _fname, _lname, _email, _telephone, _address);
 
         // Add to array
         donorArray.push(Donor(msg.sender, _fname, _lname, _email, _telephone, _address));
@@ -107,12 +113,12 @@ contract Donator {
         return donorCount;
     }
 
-    function getDonor(uint256 _donorId)
+    function getDonor(address payable _address)
         public
         view
         returns(Donor memory)
     {
-        return donorArray[_donorId];
+        return donors[_address];
     }
 
     function getAllDonors()
@@ -165,7 +171,7 @@ contract Donator {
         view
         returns(Cause memory)
     {
-        return causesArray[_causeId];
+        return causes[_causeId];
     }
 
     function getAllCauses()
@@ -190,21 +196,31 @@ contract Donator {
         Cause memory cause = causes[_causeId];
         cause.totalCollected = cause.totalCollected + msg.value;
 
+        causesArray[_causeId - 1].totalCollected = causesArray[_causeId - 1].totalCollected + msg.value;
+
         totalDonatedAllCauses= totalDonatedAllCauses + cause.totalCollected;
         
         Donation memory donation = Donation(id, msg.value, _causeId);
-        donations[id] = donation;
+        donations[_causeId - 1] = donation;
         
-        emit DonationMade(msg.value, _causeId, block.timestamp);
+        emit DonationMade(msg.sender, msg.value, _causeId, block.timestamp);
         return true;
     }
 
+    function getDonationsForCause(uint256 _causeId)
+        public
+        returns (Donation[] memory)
+    {
+        return donationsArray;
+    }
 
     function withdraw(uint amount)
         public onlyOwner 
     {
         require(amount <= address(this).balance);
         msg.sender.transfer(amount);
+
+        emit WithdrawMade(block.timestamp, amount);
     }
 
 }

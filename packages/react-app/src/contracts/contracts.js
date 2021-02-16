@@ -1,1 +1,1 @@
-module.exports = ["DateTime","Donator","EthPriceOracle","YourContract"];
+module.exports = ["DateTime","Donator","EthPriceOracle","IpfsStorage","YourContract"];

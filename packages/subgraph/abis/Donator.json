@@ -46,6 +46,12 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "donor",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
@@ -107,6 +113,25 @@
       }
     ],
     "name": "DonorAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "date",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrawMade",
     "type": "event"
   },
   {
@@ -615,8 +640,44 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_donorId",
+        "name": "_causeId",
         "type": "uint256"
+      }
+    ],
+    "name": "getDonationsForCause",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "causeId",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Donator.Donation[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address payable",
+        "name": "_address",
+        "type": "address"
       }
     ],
     "name": "getDonor",
@@ -683,19 +744,6 @@
         "internalType": "address payable",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalDonatedAllCauses",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
