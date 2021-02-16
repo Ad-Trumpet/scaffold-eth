@@ -112,17 +112,17 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                     block
                     type='primary'
                     onClick={(e) => {
-                        //tx( writeContracts.IpfsStorage.setFile('This is a test of the ETH broadcast system') );
+                        //tx( writeContracts.IpfsStorage.setFile(firstName.concat(lastName).concat(email).concat(telephone).concat(physAddress)) );
                         readCurrentDonorFile().then((res, err) => console.log(res));
-                        tx({
-                            to: writeContracts.Donator.address,
-                            //value: parseEther("0.01"), // Always Free
-                            data: writeContracts.Donator.interface.encodeFunctionData(
-                                "addDonor(string, string, string, string, string)",
-                                [firstName, lastName, email, telephone, physAddress]),
-                            gasPrice: 53000000000,
-                            gasLimit: 9500000
-                        });
+                        // tx({
+                        //     to: writeContracts.Donator.address,
+                        //     //value: parseEther("0.01"), // Always Free
+                        //     data: writeContracts.Donator.interface.encodeFunctionData(
+                        //         "addDonor(string, string, string, string, string)",
+                        //         [firstName, lastName, email, telephone, physAddress]),
+                        //     gasPrice: 53000000000,
+                        //     gasLimit: 9500000
+                        // });
                        
                     }}>
                    
