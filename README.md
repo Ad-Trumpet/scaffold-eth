@@ -1,1 +1,1 @@
-# 🎺 Ad Trumpet
+# 🎺 Ad Trumpet Network

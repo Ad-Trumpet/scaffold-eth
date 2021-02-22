@@ -53,7 +53,7 @@ export default function ExampleUI({
           renderItem={(item) => {
             return (              
               <List.Item key={item.blocknumber}>
-                  {item.id} -- {item.fname} -- {item.lname} -- {item.email} -- {item.telephone} -- {item.physicalAddress}
+                  {item.id} -- {item.donorHash}
                 
               </List.Item>
             )

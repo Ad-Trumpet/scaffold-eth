@@ -12,11 +12,7 @@ contract Donator {
 
     struct Donor {
         address payable id;
-        string fname;
-        string lname;
-        string email;
-        string telephone;
-        string physicalAddress;
+        string donorHash;
     }    
 
     struct Donation {
@@ -52,7 +48,7 @@ contract Donator {
     }
 
     // Ability for anonymous donations
-    event DonorAdded(address id, string fname, string lname, string email, string telephone, string physicalAddress);
+    event DonorAdded(address id, string donorHash);
     event CauseAdded(uint256 id, string title, string videoUrl, uint256 value, address owner);
     event DonationMade(address donor, uint256 amount, uint256 causeId, uint256 date);
     event WithdrawMade(uint256 date, uint256 amount);
@@ -66,7 +62,7 @@ contract Donator {
     *
     */
     // ToDo: make a reference to ipfs to store the donor info, too expensive to store onchain
-    function addDonor(string memory _fname, string memory _lname, string memory _email, string memory _telephone, string memory _address)
+    function addDonor(string memory _donorHash)
         public
         returns (bool)
     {
@@ -75,14 +71,13 @@ contract Donator {
         
         // ** Haven't decided which one to use yet **
         // Add to mapping
-        //Donor memory donor = Donor(msg.sender, _fname, _lname, _email, _telephone, _address);
         donorCount = donorCount + 1;
-        donors[msg.sender] = Donor(msg.sender, _fname, _lname, _email, _telephone, _address);
+        donors[msg.sender] = Donor(msg.sender, _donorHash);
 
         // Add to array
-        donorArray.push(Donor(msg.sender, _fname, _lname, _email, _telephone, _address));
+        donorArray.push(Donor(msg.sender, _donorHash));
 
-        emit DonorAdded(msg.sender, _fname, _lname, _email, _telephone, _address);
+        emit DonorAdded(msg.sender, _donorHash);
         return true;
     }
 

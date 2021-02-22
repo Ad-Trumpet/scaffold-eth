@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Space, Button, Modal, List, Divider, Input, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
+import { List, Space, Input, DatePicker, Slider, Switch, Progress, Spin } from "antd";
 import { SyncOutlined, DollarOutlined, MessageOutlined, LikeOutlined, StarOutlined  } from '@ant-design/icons';
+import { Checkbox, Form, Card, Divider, Image,  Button, Confirm, Item, Segment, Modal, Header, Icon } from 'semantic-ui-react';
 
 import { Address, Balance } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
 import ReactPlayer from 'react-player/lazy'
 
+// IPFS
 import IPFS from 'ipfs';
 let node;
 
@@ -15,9 +17,19 @@ async function initIpfs() {
     console.log(`IPFS Node Version ${version.version}`);
 }
 
+// Sia Skynet
+// const { SkynetClient } = require('@nebulous/skynet');
+// const skynetClient = new SkynetClient();
 
+// async function uploadFileToSia(file) {
+//     const skylink = await skynetClient.uploadFile(file);
+//     console.log(`Upload Successful, Skylink:: ${skylink}`)
+// }
 
-
+// async function downloadFileFromSia(file, skylink) {
+//     await skynetClient.downloadFile(file, skylink);
+//     console.log(`Download Successful`);
+// }
 
 
 const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) => {
@@ -28,6 +40,8 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
     const [physAddress, setAddress] = useState('');
     const [donors, setDonors] = useState([]);
     const [ipfsHash, setIpfsHash] = useState();
+    const [donorData, setDonorData] = useState([]);
+    const [donorHash, setDonorHash] = useState('')
 
     useEffect(() => {
         initIpfs();        
@@ -35,7 +49,7 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
 
     
 
-    async function readCurrentDonorFile() {
+    async function readCurrentDonorFiles() {
         const result = await readContracts.IpfsStorage.userFiles(
             address
         );
@@ -48,13 +62,12 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
         setIpfsHash(hash);
     }
 
-    async function uploadFile(file) {
-        const files = [{ path: file.name + file.path, content: file }];
-
-        for await (const result of node.add(files)) {
-            await setFile(result.cid.string);
-        }
-    }
+    // async function uploadFile(file) {
+    //     const files = [{ path: file.name + file.path, content: file }];
+    //     for await (const result of node.add(files)) {
+    //         await setFile(result.cid.string);
+    //     }
+    // }
 
 
 
@@ -107,20 +120,39 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                     }}
                 />
                
-                <br/><br />
+                <br/>
+                {/* <Button onClick={() => uploadFileToSia('./test.json')}>Upload to Skynet</Button> */}
+                <br />
                 <Button 
                     block
                     type='primary'
                     onClick={(e) => {
-                        //tx( writeContracts.IpfsStorage.setFile(firstName.concat(lastName).concat(email).concat(telephone).concat(physAddress)) );
-                        readCurrentDonorFile().then((res, err) => console.log(res));
+                        // todo: get the ipfs hash for the data
+
+
+
+                        // tx( writeContracts.IpfsStorage.setFile(
+                        //             firstName + '_'
+                        //             .concat(lastName + '_')
+                        //             .concat(email + '_')
+                        //             .concat(telephone + '_')
+                        //             .concat(physAddress)
+                        //         ) 
+                        //     );
+                        readCurrentDonorFiles().then((res, err) => {
+                            const data = res.split('_');
+                            console.log(data)
+                            setDonorData(data);
+                            console.log(`Donor data: ${data}`);
+
+                        });
                         // tx({
                         //     to: writeContracts.Donator.address,
                         //     //value: parseEther("0.01"), // Always Free
                         //     data: writeContracts.Donator.interface.encodeFunctionData(
-                        //         "addDonor(string, string, string, string, string)",
-                        //         [firstName, lastName, email, telephone, physAddress]),
-                        //     gasPrice: 53000000000,
+                        //         "addDonor(string)",
+                        //         []),
+                        //     gasPrice: 5300000,
                         //     gasLimit: 9500000
                         // });
                        
@@ -130,7 +162,44 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                 </Button>
             
             </div>
-            
+            <Divider horizontal>
+                <Header as='h4'>
+                    <Icon name='cloud' />
+                    Current Donor Info                    
+                </Header>
+            </Divider>
+            <div>
+                <Card>
+                    <Card.Content>
+                        <Image
+                            floated='right'
+                            size='mini'
+                            src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
+                        />
+                        <Card.Header>{firstName} {lastName}</Card.Header>
+                        <Card.Meta>the meta</Card.Meta>
+                        <Card.Description>
+
+                        </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                        <div className='ui two buttons'>
+                        <Button basic color='green'>
+                            Donate
+                        </Button>
+                        <Button basic color='red'>
+                            Profile
+                        </Button>
+                        </div>
+                    </Card.Content>
+                </Card>
+            </div>
+            <Divider horizontal>
+                <Header as='h4'>
+                    <Icon name='database' />
+                    Donors
+                </Header>
+            </Divider>
             <div>
                 {/* List of Donors */}
             <List>
@@ -150,16 +219,12 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                                 />
                             }>
                         <List.Item.Meta
-                            title={'blah blah blah'}
+                            title={donorData.firstName}
                             description={'this is a description'}
                         />
 
                         <Address value={item.id} />
-                            {item.fname} 
-                            {item.lname} 
-                            {item.email}
-                            {item.telephone}
-                            {item.physicalAddress}
+                            {item.donorHash}
                         </List.Item>
                        
                     )

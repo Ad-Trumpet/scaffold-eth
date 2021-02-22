@@ -84,31 +84,7 @@
       {
         "indexed": false,
         "internalType": "string",
-        "name": "fname",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "lname",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "email",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "telephone",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "physicalAddress",
+        "name": "donorHash",
         "type": "string"
       }
     ],
@@ -162,27 +138,7 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_fname",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_lname",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_email",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_telephone",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_address",
+        "name": "_donorHash",
         "type": "string"
       }
     ],
@@ -408,27 +364,7 @@
       },
       {
         "internalType": "string",
-        "name": "fname",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "lname",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "email",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "telephone",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "physicalAddress",
+        "name": "donorHash",
         "type": "string"
       }
     ],
@@ -465,27 +401,7 @@
       },
       {
         "internalType": "string",
-        "name": "fname",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "lname",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "email",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "telephone",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "physicalAddress",
+        "name": "donorHash",
         "type": "string"
       }
     ],
@@ -545,27 +461,7 @@
           },
           {
             "internalType": "string",
-            "name": "fname",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "lname",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "email",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "telephone",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "physicalAddress",
+            "name": "donorHash",
             "type": "string"
           }
         ],
@@ -691,27 +587,7 @@
           },
           {
             "internalType": "string",
-            "name": "fname",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "lname",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "email",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "telephone",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "physicalAddress",
+            "name": "donorHash",
             "type": "string"
           }
         ],
