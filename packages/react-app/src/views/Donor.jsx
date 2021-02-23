@@ -41,10 +41,11 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
     const [donors, setDonors] = useState([]);
     const [ipfsHash, setIpfsHash] = useState();
     const [donorData, setDonorData] = useState([]);
-    const [donorHash, setDonorHash] = useState('')
+    const [donorHash, setDonorHash] = useState('');
+    const [cid, setCid] = useState('');
 
     useEffect(() => {
-        initIpfs();        
+        //initIpfs();        
     }, [])
 
     
@@ -60,6 +61,25 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
         const ipfsWithSigner = readContracts.IpfsStorage.connect(address);
         await ipfsWithSigner.setFile(hash);
         setIpfsHash(hash);
+    }
+
+    async function addDataToIpfs(data) {
+        const ipfsNode = await IPFS.create();
+        const result = ipfsNode.add(data)
+            .then((res, err) => {
+                console.log(res);
+                setCid(res.path);
+            });
+        
+        
+    }
+
+    async function getDataFromIpfs(cid) {
+        const ipfsNode = await IPFS.create();
+        const stream = ipfsNode.cat(cid);
+        let data = '';
+        
+        console.log(stream);
     }
 
     // async function uploadFile(file) {
@@ -122,6 +142,7 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                
                 <br/>
                 {/* <Button onClick={() => uploadFileToSia('./test.json')}>Upload to Skynet</Button> */}
+                {cid ? cid : ''}
                 <br />
                 <Button 
                     block
@@ -129,16 +150,13 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                     onClick={(e) => {
                         // todo: get the ipfs hash for the data
 
+                        addDataToIpfs(firstName + '_'
+                            .concat(lastName + '_')
+                            .concat(email + '_')
+                            .concat(telephone + '_')
+                            .concat(physAddress));
 
-
-                        // tx( writeContracts.IpfsStorage.setFile(
-                        //             firstName + '_'
-                        //             .concat(lastName + '_')
-                        //             .concat(email + '_')
-                        //             .concat(telephone + '_')
-                        //             .concat(physAddress)
-                        //         ) 
-                        //     );
+                        //tx( writeContracts.IpfsStorage.setFile(cid) );
                         readCurrentDonorFiles().then((res, err) => {
                             const data = res.split('_');
                             console.log(data)
@@ -151,11 +169,11 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                         //     //value: parseEther("0.01"), // Always Free
                         //     data: writeContracts.Donator.interface.encodeFunctionData(
                         //         "addDonor(string)",
-                        //         []),
+                        //         [cid]),
                         //     gasPrice: 5300000,
                         //     gasLimit: 9500000
                         // });
-                       
+                        getDataFromIpfs(cid);
                     }}>
                    
                     Add Donor
@@ -204,6 +222,7 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                 {/* List of Donors */}
             <List>
                 {donors ? donors.map((item) => {
+                    console.log(item)
                     return (
                         <List.Item
                             actions={[
