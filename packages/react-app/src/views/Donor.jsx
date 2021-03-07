@@ -9,6 +9,7 @@ import ReactPlayer from 'react-player/lazy'
 
 // IPFS
 import IPFS from 'ipfs';
+import ipfsClient from 'ipfs-client'
 let node;
 
 async function initIpfs() {
@@ -16,21 +17,6 @@ async function initIpfs() {
     const version = await node.version();
     console.log(`IPFS Node Version ${version.version}`);
 }
-
-// Sia Skynet
-// const { SkynetClient } = require('@nebulous/skynet');
-// const skynetClient = new SkynetClient();
-
-// async function uploadFileToSia(file) {
-//     const skylink = await skynetClient.uploadFile(file);
-//     console.log(`Upload Successful, Skylink:: ${skylink}`)
-// }
-
-// async function downloadFileFromSia(file, skylink) {
-//     await skynetClient.downloadFile(file, skylink);
-//     console.log(`Download Successful`);
-// }
-
 
 const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) => {
     const [firstName, setFirstName] = useState('');
@@ -148,31 +134,37 @@ const AddCause = ({ address, mainnetProvider, userProvider, localProvider, yourL
                     block
                     type='primary'
                     onClick={(e) => {
-                        // todo: get the ipfs hash for the data
+                        // todo: add the data to ipfs and set the cid to store 
+                        // on the blockchain as a reference.
+                        addDataToIpfs({
+                            'firstName': firstName,
+                            'lastName': lastName,
+                            'email': email,
+                            'telephone': telephone,
+                            'address': address
+                        }.toString());
 
-                        addDataToIpfs(firstName + '_'
-                            .concat(lastName + '_')
-                            .concat(email + '_')
-                            .concat(telephone + '_')
-                            .concat(physAddress));
-
-                        //tx( writeContracts.IpfsStorage.setFile(cid) );
-                        readCurrentDonorFiles().then((res, err) => {
-                            const data = res.split('_');
-                            console.log(data)
-                            setDonorData(data);
-                            console.log(`Donor data: ${data}`);
-
-                        });
-                        // tx({
-                        //     to: writeContracts.Donator.address,
-                        //     //value: parseEther("0.01"), // Always Free
-                        //     data: writeContracts.Donator.interface.encodeFunctionData(
-                        //         "addDonor(string)",
-                        //         [cid]),
-                        //     gasPrice: 5300000,
-                        //     gasLimit: 9500000
+                        // write the cid to the chain
+                        tx( writeContracts.IpfsStorage.setFile(cid) );
+                        // readCurrentDonorFiles().then((res, err) => {
+                        //     const data = res.split('_');
+                        //     console.log(data)
+                        //     setDonorData(data);
+                        //     console.log(`Donor data: ${data}`);
                         // });
+
+                        // write the donor with cid ref tot the chain
+                        tx({
+                            to: writeContracts.Donator.address,
+                            //value: parseEther("0.01"), // Always Free
+                            data: writeContracts.Donator.interface.encodeFunctionData(
+                                "addDonor(string)",
+                                [cid]),
+                            gasPrice: 5300000,
+                            gasLimit: 9500000
+                        });
+
+                        // get the data using the cid and display it
                         getDataFromIpfs(cid);
                     }}>
                    

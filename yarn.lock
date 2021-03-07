@@ -2081,6 +2081,13 @@
     "@hapi/bourne" "2.x.x"
     "@hapi/hoek" "9.x.x"
 
+"@improbable-eng/grpc-web@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@improbable-eng/grpc-web/-/grpc-web-0.13.0.tgz#289e6fc4dafc00b1af8e2b93b970e6892299014d"
+  integrity sha512-vaxxT+Qwb7GPqDQrBV4vAAfH0HywgOLw6xGIKXd9Q8hcV63CQhmS3p4+pZ9/wVvt4Ph3ZDK9fdC983b9aGMUFg==
+  dependencies:
+    browser-headers "^0.4.0"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -5327,6 +5334,11 @@ brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
+
+browser-headers@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/browser-headers/-/browser-headers-0.4.1.tgz#4308a7ad3b240f4203dbb45acedb38dc2d65dd02"
+  integrity sha512-CA9hsySZVo9371qEHjHZtYxV2cFtVj5Wj/ZHi8ooEsrtm4vOnl9Y9HmyYWk9q+05d7K3rdoAE0j3MVEFVvtQtg==
 
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
@@ -11118,6 +11130,15 @@ ipfs-cli@^0.4.2:
     uint8arrays "^2.0.5"
     yargs "^16.0.3"
 
+ipfs-client@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/ipfs-client/-/ipfs-client-0.3.2.tgz#85860032b689173a6a3a51547ce85d8412406a09"
+  integrity sha512-pY9nfBZwG/8Uc1gmlnGzQlS+4vmgSbMAqxjsWUjkSOWUtdLgYI5l29rVYxecUXvmx15Tki9eg1oYOSoIeTJmLA==
+  dependencies:
+    ipfs-grpc-client "^0.2.2"
+    ipfs-http-client "^49.0.2"
+    merge-options "^3.0.4"
+
 ipfs-core-types@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/ipfs-core-types/-/ipfs-core-types-0.3.0.tgz#244ce1db49ba60b88f505de6cc8e2565d4c534ab"
@@ -11254,6 +11275,25 @@ ipfs-daemon@^0.5.2:
   optionalDependencies:
     prom-client "^12.0.0"
     prometheus-gc-stats "^0.6.0"
+
+ipfs-grpc-client@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/ipfs-grpc-client/-/ipfs-grpc-client-0.2.2.tgz#6e0831c1a52a3ddc81dbeb2356bc0c2c07c04979"
+  integrity sha512-D4VEPwBdLtrQ3rOka/US4JuHGW+M5YjTCWvRBZk5m9H54z2rj51FJTEfTxwzEJSyEcv+2I+ybN3V7j5+7gfC1A==
+  dependencies:
+    "@improbable-eng/grpc-web" "^0.13.0"
+    change-case "^4.1.1"
+    cids "^1.1.5"
+    debug "^4.1.1"
+    err-code "^2.0.3"
+    ipfs-core-utils "^0.7.1"
+    ipfs-grpc-protocol "^0.2.0"
+    it-first "^1.0.4"
+    it-pushable "^1.4.0"
+    multiaddr "^8.0.0"
+    protobufjs "^6.10.2"
+    wherearewe "0.0.1"
+    ws "^7.3.1"
 
 ipfs-grpc-protocol@^0.2.0:
   version "0.2.0"
@@ -22544,6 +22584,13 @@ whatwg-url@^7.0.0:
     lodash.sortby "^4.7.0"
     tr46 "^1.0.1"
     webidl-conversions "^4.0.2"
+
+wherearewe@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/wherearewe/-/wherearewe-0.0.1.tgz#26b09bf3baebcc2917ec92990f63737ed8532697"
+  integrity sha512-v/6F/0lkbvgkkHnQiwSeQY5iEtQ7gqM248i62Bl4p4tmbFIS83oACZehlaOajuOYEvecZeATd+ZFZbbOndPhtw==
+  dependencies:
+    is-electron "^2.2.0"
 
 which-boxed-primitive@^1.0.1:
   version "1.0.1"
