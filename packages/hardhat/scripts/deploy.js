@@ -15,6 +15,9 @@ const main = async () => {
   const ethPriceOracle = await deploy("EthPriceOracle", ["0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507"]);
   const dateTime = await deploy('DateTime');
   const ipfsStorage = await deploy('IpfsStorage');
+  const nftIssuer = await deploy('NFTIssuer');
+  const affilliateNetwork = await deploy('AffilliateNetwork');
+  const trumpetToken = deploy('TrumpetToken');
   //const secondContract = await deploy("SecondContract")
 
   // const exampleToken = await deploy("ExampleToken")
